@@ -18,7 +18,7 @@ jobs:
       - name: Set tag
         id: tag
         run: |
-          echo ${{ github.event.inputs.project }} > Project_VERSION
+          echo "${{ github.event.inputs.project }}" > Project_VERSION
           if [[ -n $(awk -F: '{if($1)print $3}' Project_VERSION)) ]]; then
             VERSION=$( $(awk -F: '{if($1)print $3}' Project_VERSION )')
             echo "tag=$VERSION" >> $GITHUB_ENV
