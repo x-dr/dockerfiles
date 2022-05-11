@@ -10,7 +10,9 @@ docker run --rm -it \
            -v ${PWD}/gocqhttp_data:/data \
            --network=host \
            gindex/gocqhttp
+
 ```
+> 初始化配置文件成功后，按下连续组合键 ctrl + C 退出
 
 ### 修改配置文件
 ```
@@ -24,6 +26,8 @@ docker run --rm -it \
            --network=host \
            gindex/gocqhttp
 ```
+> 扫描二维码验证成功后，按下连续组合键 ctrl + C 退出
+
 ### 启动
 ```
 docker run -itd \
