@@ -3,23 +3,25 @@ FROM tiangolo/uwsgi-nginx-flask:python3.8-alpine
 
 LABEL maintainer="ookk"
 
-RUN pip install  requests
+RUN pip install  requests  \
+    && cat /app/main.py \
+    && rm -rf /app/main.py
 
 ARG VERSION
 
-COPY ./app /app
+COPY ./app/main.py /app
 WORKDIR /app
 
 # Make /app/* available to be imported by Python globally to better support several use cases like Alembic migrations.
-ENV PYTHONPATH=/app
+# ENV PYTHONPATH=/app
 
 # Move the base entrypoint to reuse it
-RUN mv /entrypoint.sh /uwsgi-nginx-entrypoint.sh
-# Copy the entrypoint that will generate Nginx additional configs
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# RUN mv /entrypoint.sh /uwsgi-nginx-entrypoint.sh
+# # Copy the entrypoint that will generate Nginx additional configs
+# COPY entrypoint.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 
 # Run the start script provided by the parent image tiangolo/uwsgi-nginx.
 # It will check for an /app/prestart.sh script (e.g. for migrations)
