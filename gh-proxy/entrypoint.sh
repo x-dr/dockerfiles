@@ -3,7 +3,7 @@ set -e
 
 /uwsgi-nginx-entrypoint.sh
 
-pip install requests
+
 
 # Get the listen port for Nginx, default to 80
 USE_LISTEN_PORT=${LISTEN_PORT:-80}

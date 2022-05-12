@@ -28,3 +28,5 @@ ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 80
 
 CMD ["/start.sh"]
+
+
