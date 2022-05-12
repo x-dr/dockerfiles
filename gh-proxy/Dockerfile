@@ -1,9 +1,9 @@
-FROM tiangolo/uwsgi-nginx:python3.8-alpine
-# docker pull tiangolo/uwsgi-nginx:python3.8-alpine
+FROM tiangolo/uwsgi-nginx-flask:python3.8-alpine
+# docker pull tiangolo/uwsgi-nginx-flask:python3.8-alpine
 
 LABEL maintainer="ookk"
 
-RUN pip install flask requests
+RUN pip install  requests
 
 ARG VERSION
 
