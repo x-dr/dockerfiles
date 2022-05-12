@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-/uwsgi-nginx-entrypoint.sh
+# /uwsgi-nginx-entrypoint.sh
 
 
 
