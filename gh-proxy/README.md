@@ -62,12 +62,12 @@ github release、archive以及项目文件的加速项目，支持clone，有Clo
 
 ```
 docker run -d --name="gh-proxy-py" \
-  -p 0.0.0.0:80:80 \
+  -p 0.0.0.0:3651:80 \
   --restart=always \
-  hunsh/gh-proxy-py:latest
+  gindex/gh-proxy:latest
 ```
 
-第一个80是你要暴露出去的端口
+第一个3651是你要暴露出去的端口
 
 ### 直接部署
 
