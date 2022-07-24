@@ -5,10 +5,9 @@ ARG VERSION
 WORKDIR /app
 
 
-RUN apk add --no-cache --update  bash git  
-
-RUN  git clone https://github.com/EverythingSuckz/TG-FileStreamBot.git /app                       
-RUN pip3 install --no-cache-dir -q -r /app/requirements.txt \
+RUN apk add --no-cache --update   git   \  
+    && git clone https://github.com/EverythingSuckz/TG-FileStreamBot.git /app \                        
+    && pip install --no-cache-dir -r /app/requirements.txt \
     && rm -rf /var/cache/apk/* \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone 
