@@ -3,7 +3,7 @@ FROM python:3.8.13-alpine3.15
 WORKDIR /app
 
 
-RUN apk add --no-cache --update  bash git   \  
+RUN apk add --no-cache  bash git   \  
     && git clone https://github.com/EverythingSuckz/TG-FileStreamBot.git /app \                        
     && pip3 install --no-cache-dir -q -r /app/requirements.txt \
     && rm -rf /var/cache/apk/* \
