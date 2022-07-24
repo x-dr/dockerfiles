@@ -4,8 +4,8 @@ ARG VERSION
 
 WORKDIR /app
 
-
-RUN apk add --no-cache   bash git   \  
+RUN set -ex \
+    && apk add --no-cache --update  bash git   \  
     && git clone https://github.com/EverythingSuckz/TG-FileStreamBot.git /app \                        
     && pip3 install --no-cache-dir -q -r /app/requirements.txt \
     && rm -rf /var/cache/apk/* \
