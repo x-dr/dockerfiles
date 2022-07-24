@@ -64,7 +64,7 @@ github release、archive以及项目文件的加速项目，支持clone，有Clo
 docker run -d --name="gh-proxy-py" \
   -p 0.0.0.0:3651:80 \
   --restart=always \
-  hunsh/gh-proxy-py:latest
+  gindex/gh-proxy:latest
 ```
 
 第一个3651是你要暴露出去的端口
@@ -112,7 +112,3 @@ python版本默认走服务器（2021.3.27更新）
 ![ali.png](https://www.helloimg.com/images/2021/04/24/BK9vmb.md.png)
 
 
-
-
-docker run -it --name="test" --rm -p 0.0.0.0:8088:80  tiangolo/uwsgi-nginx-flask:python3.8-alpine sh
-  

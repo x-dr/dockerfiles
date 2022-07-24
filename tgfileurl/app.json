@@ -1,0 +1,43 @@
+{
+  "name": "tgweb",
+  "description": "一个 Pyrogram Telegram 机器人，用于获取Telegram 文件的url。",
+  "keywords": [
+      "telegram",
+      "web"
+    ],
+"repository": "https://github.com/x-dr/TG-FileStreamBot_Docker",
+    "stack": "container",
+  "env": {
+      "ENV": {
+          "description": "如果您不想让机器人崩溃，请将其设置为 True",
+          "value": "True"
+      },
+      "APP_NAME": {
+          "description": "复制粘贴您刚刚在上面键入的应用程序名称(App name)。"
+      },
+      "API_ID": {
+          "description": "从 https://my.telegram.org 以获取此变量。"
+      },
+      "API_HASH": {
+          "description": "从 https://my.telegram.org 以获取此变量。"
+      },
+      "BOT_TOKEN": {
+          "description": "从@BotFather 获取机器人token。"
+      },
+      "BIN_CHANNEL": {
+          "description": "频道 ID，阅读自述文件以获取有关此变量的更多信息（https://github.com/x-dr/TG-FileStreamBot_Docker#环境参数）。"
+      },
+      "WORKERS": {
+          "description": "并发数量，默认 3",
+          "required": false
+      },
+      "PING_INTERVAL": {
+          "description": "您希望每次 ping 服务器以避免休眠的时间（以 ms 为单位）（仅适用于 Heroku）。默认为  `20` 分钟。",
+          "required": false
+      },
+      "FQDN": {
+          "description": "自定义域名（如果存在）。默认为 WEB_SERVER_BIND_ADDRESS",
+          "required": false
+      }
+    }
+}
