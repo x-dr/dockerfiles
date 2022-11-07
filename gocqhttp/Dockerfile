@@ -6,7 +6,7 @@ ARG VERSION
 RUN set -xe && \
     UNAME=$(uname -m) \
     && if [ "$UNAME" = "x86_64" ]; then export PLATFORM=amd64 ; else export PLATFORM=arm64 ; fi  \
-    && apk add --no-cache tzdata  \
+    && apk add --no-cache  curl ffmpeg tzdata  \
 	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& echo "Asia/shanghai" > /etc/timezone \
     && apk del tzdata  \
@@ -18,4 +18,5 @@ RUN set -xe && \
 
 WORKDIR /data
 
-ENTRYPOINT ["/usr/bin/cqhttp"]
+# ENTRYPOINT ["/usr/bin/cqhttp"]
+CMD [ "/usr/bin/cqhttp" ]
