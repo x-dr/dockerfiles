@@ -34,6 +34,7 @@ docker run -itd \
            -v ${PWD}/gocqhttp_data:/data \
            --name gocqhttp \
            --network=host \
+           --restart=always \
            gindex/gocqhttp
 ```
 
