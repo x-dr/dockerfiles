@@ -34,11 +34,11 @@ RUN set -ex  && \
     chmod a+x /init.sh  &&\
     rm -rf /var/cache/apk/*
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY . /var/www/html/
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY php_set_jit.ini /etc/php8/conf.d/00_jit.ini
-COPY php_set_timezone.ini /etc/php81/conf.d/custom.ini
+COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./php_set_jit.ini /etc/php8/conf.d/00_jit.ini
+COPY ./php_set_timezone.ini /etc/php81/conf.d/custom.ini
 
 EXPOSE 80
 
