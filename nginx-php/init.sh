@@ -6,7 +6,7 @@ msg() {
 
 msg "Set permission for caching..."
 
-chmod -R 755 /var/www/html/*
+chmod -R 755 /usr/share/nginx/html/*
 
 msg "Start supervisord..."
 supervisord -c /etc/supervisor/conf.d/supervisord.conf
