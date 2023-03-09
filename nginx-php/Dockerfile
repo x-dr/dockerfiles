@@ -38,11 +38,11 @@ RUN ls
 
 RUN pwd
 
-COPY . /var/www/html/
-COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./php_set_jit.ini /etc/php8/conf.d/00_jit.ini
-COPY ./php_set_timezone.ini /etc/php81/conf.d/custom.ini
+COPY index.php /var/www/html/
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY php_set_jit.ini /etc/php8/conf.d/00_jit.ini
+COPY php_set_timezone.ini /etc/php81/conf.d/custom.ini
 
 EXPOSE 80
 
