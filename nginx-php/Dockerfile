@@ -34,6 +34,9 @@ RUN set -ex  && \
     chmod a+x /init.sh  &&\
     rm -rf /var/cache/apk/*
 
+RUN ls 
+
+RUN pwd
 
 COPY . /var/www/html/
 COPY ./nginx.conf /etc/nginx/nginx.conf
