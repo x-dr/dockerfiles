@@ -2,7 +2,7 @@ ARG VERSION
 
 FROM alpine:${VERSION}
 
-WORKDIR /var/www/html
+
 
 ADD init.sh /
 # Install packages and remove default server definition
@@ -31,12 +31,13 @@ RUN set -ex  && \
     bash  && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/shanghai" > /etc/timezone && \
+    mkdir -p /usr/share/nginx/html && \
     chmod a+x /init.sh  &&\
     rm -rf /var/cache/apk/*
 
 
 
-COPY index.php /var/www/html/
+COPY index.php /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php_set_jit.ini /etc/php8/conf.d/00_jit.ini
