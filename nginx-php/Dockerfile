@@ -1,6 +1,6 @@
 ARG VERSION
 
-FROM nginx:${VERSION}
+FROM alpine:${VERSION}
 
 
 
@@ -9,6 +9,7 @@ ADD init.sh /
 RUN set -ex  && \
     apk update && \
     apk add --no-cache \
+    nginx \
     php81 \
     php81-ctype \
     php81-curl \
