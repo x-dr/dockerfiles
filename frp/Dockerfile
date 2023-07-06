@@ -11,7 +11,7 @@ WORKDIR /app
 ADD . /app/ 
 
 
-
+# https://github.com/fatedier/frp/releases/download/v0.51.0/frp_0.51.0_linux_arm.tar.gz
 RUN apk update -f \
     && apk upgrade \
     && apk --no-cache add -f tzdata \
