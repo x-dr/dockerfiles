@@ -10,4 +10,4 @@ docker run -itd --net=host  --name frps -v $PWD/frp/config:/frp/config -v $PWD/f
 
 ### frpc
 ```shell
-docker run -itd --net=host  --name frpc -v $PWD/frpc/config:/frp/config -v $PWD/frpc/logs:/frp/logs -e FRP_RUN=frpc gindex/frp
+docker run -itd --net=host  --name frpc --restart=always -v $PWD/frpc/config:/frp/config -v $PWD/frpc/logs:/frp/logs -e FRP_RUN=frpc gindex/frp
