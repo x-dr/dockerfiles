@@ -1,5 +1,5 @@
-# 使用更新的 Python 版本，Alpine 镜像更小
-FROM tiangolo/uwsgi-nginx-flask:python3.11-alpine
+# 使用本地构建的轻量级 Alpine 镜像
+FROM gindex/uwsgi-nginx-flask:python3.11-alpine
 
 LABEL maintainer="ookk" \
       description="GitHub Proxy Service" \
@@ -12,7 +12,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # 安装依赖（单独层，利用缓存）
-RUN pip install --no-cache-dir requests
+RUN pip install --no-cache-dir flask requests
 
 # 设置工作目录
 WORKDIR /app
