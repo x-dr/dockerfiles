@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
 import re
+from pathlib import Path
 
 import requests
-from flask import Flask, Response, redirect, request
+from flask import Flask, Response, redirect, request, send_from_directory
 from requests.exceptions import (
     ChunkedEncodingError,
     ContentDecodingError, ConnectionError, StreamConsumedError)
@@ -31,17 +33,26 @@ black_list = '''
 pass_list = '''
 '''
 
-HOST = '127.0.0.1'  # 监听地址，建议监听本地然后由web服务器反代
-PORT = 80  # 监听端口
-ASSET_URL = 'https://x-dr.github.io/ghproxy'  # 主页
+# 支持环境变量配置
+HOST = os.environ.get('HOST', '127.0.0.1')  # 监听地址
+PORT = int(os.environ.get('PORT', 80))  # 监听端口
+CHUNK_SIZE = int(os.environ.get('CHUNK_SIZE', 1024 * 10))  # 分块大小
 
-white_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in white_list.split('\n') if i]
-black_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in black_list.split('\n') if i]
-pass_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in pass_list.split('\n') if i]
-app = Flask(__name__)
-CHUNK_SIZE = 1024 * 10
-index_html = requests.get(ASSET_URL, timeout=10).text
-icon_r = requests.get(ASSET_URL + '/favicon.ico', timeout=10).content
+# 解析黑白名单
+def parse_list(lst):
+    return [tuple([x.replace(' ', '') for x in i.split('/')]) for i in lst.split('\n') if i]
+
+white_list = parse_list(white_list)
+black_list = parse_list(black_list)
+pass_list = parse_list(pass_list)
+
+# Flask 应用配置
+app = Flask(__name__, template_folder='templates', static_folder='templates')
+TEMPLATE_DIR = Path(__file__).parent / 'templates'
+
+# 加载本地静态资源（启动时只读取一次）
+with open(TEMPLATE_DIR / 'index.html', 'r', encoding='utf-8') as f:
+    index_html = f.read()
 exp1 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
 exp2 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$')
 exp3 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
@@ -53,6 +64,7 @@ requests.sessions.default_headers = lambda: CaseInsensitiveDict()
 
 @app.route('/')
 def index():
+    """首页路由"""
     if 'q' in request.args:
         return redirect('/' + request.args.get('q'))
     return index_html
@@ -60,7 +72,17 @@ def index():
 
 @app.route('/favicon.ico')
 def icon():
-    return Response(icon_r, content_type='image/vnd.microsoft.icon')
+    """网站图标"""
+    return send_from_directory(
+        TEMPLATE_DIR, 'favicon.ico', 
+        mimetype='image/vnd.microsoft.icon'
+    )
+
+
+@app.route('/health')
+def health():
+    """健康检查端点"""
+    return Response('OK', status=200)
 
 
 def iter_content(self, chunk_size=1, decode_unicode=False):
@@ -188,6 +210,8 @@ def proxy(u, allow_redirects=False):
         headers['content-type'] = 'text/html; charset=UTF-8'
         return Response('server error ' + str(e), status=500, headers=headers)
 
-app.debug = True
+# 生产环境禁用 debug 模式
+app.debug = os.environ.get('DEBUG', 'false').lower() == 'true'
+
 if __name__ == '__main__':
-    app.run(host=HOST, port=PORT)
+    app.run(host=HOST, port=PORT, threaded=True)

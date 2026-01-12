@@ -1,31 +1,28 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.8-alpine
-# docker pull tiangolo/uwsgi-nginx-flask:python3.8-alpine
+# 使用更新的 Python 版本，Alpine 镜像更小
+FROM tiangolo/uwsgi-nginx-flask:python3.11-alpine
 
-LABEL maintainer="ookk"
+LABEL maintainer="ookk" \
+      description="GitHub Proxy Service" \
+      version="1.0"
 
-RUN pip install  requests  \
-    && cat /app/main.py \
-    && rm -rf /app/main.py
+# 设置环境变量
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
-ARG VERSION
+# 安装依赖（单独层，利用缓存）
+RUN pip install --no-cache-dir requests
 
-COPY ./app/main.py /app
+# 设置工作目录
 WORKDIR /app
 
-# Make /app/* available to be imported by Python globally to better support several use cases like Alembic migrations.
-# ENV PYTHONPATH=/app
+# 复制应用代码
+COPY ./app/ /app/
 
-# Move the base entrypoint to reuse it
-# RUN mv /entrypoint.sh /uwsgi-nginx-entrypoint.sh
-# # Copy the entrypoint that will generate Nginx additional configs
-# COPY entrypoint.sh /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
-
-# ENTRYPOINT ["/entrypoint.sh"]
-
-# Run the start script provided by the parent image tiangolo/uwsgi-nginx.
-# It will check for an /app/prestart.sh script (e.g. for migrations)
-# And then will start Supervisor, which in turn will start Nginx and uWSGI
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:80/health || exit 1
 
 EXPOSE 80
 
