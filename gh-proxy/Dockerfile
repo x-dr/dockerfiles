@@ -1,5 +1,5 @@
 # 使用本地构建的轻量级 Alpine 镜像
-FROM gindex/uwsgi-nginx-flask:python3.11-alpine
+FROM gindex/uwsgi-nginx-flask-alpine:latest
 
 LABEL maintainer="ookk" \
       description="GitHub Proxy Service" \
